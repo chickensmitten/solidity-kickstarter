@@ -2,7 +2,15 @@
 - Create a smart contract that requires approvers to approve every spending request
 - Refer to [solidit basics](https://github.com/chickensmitten/solidity-basics) for more info
 
-## How the Campaign contract work
+## How the CampaignFactory Contract work
+### Variables
+- `deployedCampaigns`: address[], addresses of all deployed campaigns
+
+### Functions
+- `createCampaign`: deploys a new instance of a Campaign and stores the resulting address
+- `getDeployedCampaigns`: returns a list of all deployed campaigns
+
+## How the Campaign Contract work
 ### Variables
 - `manager`: address, address of the person who is managing this campaign
 - `minimum contribution`: uint, minimum donation required to be considered a contributor or approver
@@ -29,3 +37,7 @@
 - Using `Address[]` is a poor approach because of gas cost that linearly increase.
 - When working with contracts, avoid using arrays as much as possible. Instead use mapping because search time is constant.
 - This is the correct mapping `mapping(address => bool) public approvers;`
+
+## Factory to create solidty contracts
+- Use a contract to deploy another contract.
+- 
