@@ -1,6 +1,7 @@
 # Kickstarter Smart Contract
 - Create a smart contract that requires approvers to approve every spending request
-- Refer to [solidit basics](https://github.com/chickensmitten/solidity-basics) for more info
+- Refer to [solidity basics](https://github.com/chickensmitten/solidity-basics) for more info
+- `web3` is the interface between the smart contract and js framework
 
 ## How the CampaignFactory Contract work
 ### Variables
@@ -38,6 +39,21 @@
 - When working with contracts, avoid using arrays as much as possible. Instead use mapping because search time is constant.
 - This is the correct mapping `mapping(address => bool) public approvers;`
 
-## Factory to create solidty contracts
-- Use a contract to deploy another contract.
-- 
+## Gotchas for returning a list of Requests
+- ***Get array of struts one by one***: As of time of writing, Solidity cannot return an array of struts. It has to be done, one by one. code below in solidity smart contract doesn't work
+```
+function getAllRequests() public view returns (Request[]) {
+  return requests;
+}
+
+// TypeError: Internal or recursive type is not allowed for public or external function getAllRequests() public view returns (Request[])
+```
+we can though get the total count with
+```
+function getRequestsCount() public view returns (uint256) {
+  return requests.length;
+}
+```
+
+## Gotchas with MetaMask complaining that a transaction is going to fail
+- ***Transaction going to fail***: Sometimes, MetaMask will complain that a transaction is going to fail due to high gas limit. However, take a closer look because it could be that your Solidity function is going to fail and not because of the high gas fees. For example, `finalizeRequest` failes when not enough approvers are met, yet MetaMask will complain about the high gas limit instead.
